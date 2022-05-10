@@ -15,6 +15,7 @@
 #include "ForbiddenSubclassingCheck.h"
 #include "MissingHashCheck.h"
 #include "NSInvocationArgumentLifetimeCheck.h"
+#include "NsdateformatterCheck.h"
 #include "PropertyDeclarationCheck.h"
 #include "SuperSelfCheck.h"
 
@@ -27,6 +28,8 @@ namespace objc {
 class ObjCModule : public ClangTidyModule {
 public:
   void addCheckFactories(ClangTidyCheckFactories &CheckFactories) override {
+    CheckFactories.registerCheck<NsdateformatterCheck>(
+        "objc-NSDateFormatter");
     CheckFactories.registerCheck<AvoidNSErrorInitCheck>(
         "objc-avoid-nserror-init");
     CheckFactories.registerCheck<AssertEquals>("objc-assert-equals");

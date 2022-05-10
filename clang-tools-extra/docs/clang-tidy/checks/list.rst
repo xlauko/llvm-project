@@ -84,7 +84,7 @@ Clang-Tidy Checks
    `bugprone-posix-return <bugprone-posix-return.html>`_, "Yes"
    `bugprone-redundant-branch-condition <bugprone-redundant-branch-condition.html>`_, "Yes"
    `bugprone-reserved-identifier <bugprone-reserved-identifier.html>`_, "Yes"
-   `bugprone-shared-ptr-array-mismatch <bugprone-shared-ptr-array-mismatch.html>`_, "Yes"
+   `bugprone-shared-ptr-array-mismatch <bugprone-shared-ptr-array-mismatch.html>`_,
    `bugprone-signal-handler <bugprone-signal-handler.html>`_,
    `bugprone-signed-char-misuse <bugprone-signed-char-misuse.html>`_,
    `bugprone-sizeof-container <bugprone-sizeof-container.html>`_,
@@ -105,7 +105,7 @@ Clang-Tidy Checks
    `bugprone-terminating-continue <bugprone-terminating-continue.html>`_, "Yes"
    `bugprone-throw-keyword-missing <bugprone-throw-keyword-missing.html>`_,
    `bugprone-too-small-loop-variable <bugprone-too-small-loop-variable.html>`_,
-   `bugprone-unchecked-optional-access <bugprone-unchecked-optional-access.html>`_, "Yes"
+   `bugprone-unchecked-optional-access <bugprone-unchecked-optional-access.html>`_,
    `bugprone-undefined-memory-manipulation <bugprone-undefined-memory-manipulation.html>`_,
    `bugprone-undelegated-constructor <bugprone-undelegated-constructor.html>`_,
    `bugprone-unhandled-exception-at-new <bugprone-unhandled-exception-at-new.html>`_,
@@ -114,7 +114,7 @@ Clang-Tidy Checks
    `bugprone-unused-return-value <bugprone-unused-return-value.html>`_,
    `bugprone-use-after-move <bugprone-use-after-move.html>`_,
    `bugprone-virtual-near-miss <bugprone-virtual-near-miss.html>`_, "Yes"
-   `cert-dcl21-cpp <cert-dcl21-cpp.html>`_, "Yes"
+   `cert-dcl21-cpp <cert-dcl21-cpp.html>`_,
    `cert-dcl50-cpp <cert-dcl50-cpp.html>`_,
    `cert-dcl58-cpp <cert-dcl58-cpp.html>`_,
    `cert-env33-c <cert-env33-c.html>`_,
@@ -263,6 +263,7 @@ Clang-Tidy Checks
    `modernize-use-using <modernize-use-using.html>`_, "Yes"
    `mpi-buffer-deref <mpi-buffer-deref.html>`_, "Yes"
    `mpi-type-mismatch <mpi-type-mismatch.html>`_, "Yes"
+   `objc-NSDateFormatter <objc-NSDateFormatter.html>`_, "Yes"
    `objc-assert-equals <objc-assert-equals.html>`_, "Yes"
    `objc-avoid-nserror-init <objc-avoid-nserror-init.html>`_,
    `objc-dealloc-in-category <objc-dealloc-in-category.html>`_,

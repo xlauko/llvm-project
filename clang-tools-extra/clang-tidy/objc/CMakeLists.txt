@@ -10,6 +10,7 @@ add_clang_library(clangTidyObjCModule
   ForbiddenSubclassingCheck.cpp
   MissingHashCheck.cpp
   NSInvocationArgumentLifetimeCheck.cpp
+  NsdateformatterCheck.cpp
   ObjCTidyModule.cpp
   PropertyDeclarationCheck.cpp
   SuperSelfCheck.cpp
