@@ -1547,6 +1547,19 @@ def LLVM_AliasOp : LLVM_Op<"mlir.alias",
   let hasRegionVerifier = 1;
 }
 
+def LLVM_GlobalIFunc : LLVM_Op<"ifunc", [Symbol]> {
+  let arguments = (ins
+    StrAttr:$sym_name,
+    StrAttr:$resolver
+  );
+
+  let summary = "LLVM dialect ifunc.";
+
+  let description = [{ WIP }];
+
+  let assemblyFormat = "attr-dict";
+}
+
 def LLVM_ComdatSelectorOp : LLVM_Op<"comdat_selector", [Symbol]> {
   let arguments = (ins
     SymbolNameAttr:$sym_name,
