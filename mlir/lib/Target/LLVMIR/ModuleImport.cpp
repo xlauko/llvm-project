@@ -657,6 +657,16 @@ LogicalResult ModuleImport::convertAliases() {
   return success();
 }
 
+LogicalResult ModuleImport::convertIFuncs() {
+  for (llvm::GlobalIFunc &ifunc : llvmModule->ifuncs()) {
+    if (failed(convertIFunc(&ifunc))) {
+      return emitError(UnknownLoc::get(context))
+             << "unhandled global ifunc: " << diag(ifunc);
+    }
+  }
+  return success();
+}
+
 LogicalResult ModuleImport::convertDataLayout() {
   Location loc = mlirModule.getLoc();
   DataLayoutImporter dataLayoutImporter(context, llvmModule->getDataLayout());
@@ -973,7 +983,7 @@ OpBuilder::InsertionGuard ModuleImport::setGlobalInsertionPoint(Operation *op) {
 
 LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
   // Insert the alias after the last one or at the start of the module.
-  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(aliasInsertionOp);
+  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(globalInsertionOp);
 
   Type type = convertType(alias->getValueType());
   AliasOp aliasOp = builder.create<AliasOp>(
@@ -982,7 +992,7 @@ LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
       /*dso_local=*/alias->isDSOLocal(),
       /*thread_local=*/alias->isThreadLocal(),
       /*attrs=*/ArrayRef<NamedAttribute>());
-  aliasInsertionOp = aliasOp;
+  globalInsertionOp = aliasOp;
 
   clearRegionState();
   Block *block = builder.createBlock(&aliasOp.getInitializerRegion());
@@ -997,6 +1007,13 @@ LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
   aliasOp.setVisibility_(convertVisibilityFromLLVM(alias->getVisibility()));
 
   return success();
+}
+
+LogicalResult ModuleImport::convertIFunc(llvm::GlobalIFunc *ifunc) {
+  // Insert the ifunc after the last one or at the start of the module.
+  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(ifuncInsertionOp);
+
+  return failure();
 }
 
 LogicalResult ModuleImport::convertGlobal(llvm::GlobalVariable *globalVar) {
