@@ -962,13 +962,18 @@ ModuleImport::getOrCreateNamelessSymbolName(llvm::GlobalVariable *globalVar) {
   return symbolRef;
 }
 
-LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
-  // Insert the global after the last one or at the start of the module.
+OpBuilder::InsertionGuard ModuleImport::setGlobalInsertionPoint(Operation *op) {
   OpBuilder::InsertionGuard guard(builder);
-  if (!aliasInsertionOp)
-    builder.setInsertionPointToStart(mlirModule.getBody());
+  if (op)
+    builder.setInsertionPointAfter(op);
   else
-    builder.setInsertionPointAfter(aliasInsertionOp);
+    builder.setInsertionPointToStart(mlirModule.getBody());
+  return guard;
+}
+
+LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
+  // Insert the alias after the last one or at the start of the module.
+  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(aliasInsertionOp);
 
   Type type = convertType(alias->getValueType());
   AliasOp aliasOp = builder.create<AliasOp>(
@@ -996,11 +1001,7 @@ LogicalResult ModuleImport::convertAlias(llvm::GlobalAlias *alias) {
 
 LogicalResult ModuleImport::convertGlobal(llvm::GlobalVariable *globalVar) {
   // Insert the global after the last one or at the start of the module.
-  OpBuilder::InsertionGuard guard(builder);
-  if (!globalInsertionOp)
-    builder.setInsertionPointToStart(mlirModule.getBody());
-  else
-    builder.setInsertionPointAfter(globalInsertionOp);
+  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(globalInsertionOp);
 
   Attribute valueAttr;
   if (globalVar->hasInitializer())
@@ -1096,11 +1097,8 @@ ModuleImport::convertGlobalCtorsAndDtors(llvm::GlobalVariable *globalVar) {
     priorities.push_back(priority->getValue().getZExtValue());
   }
 
-  OpBuilder::InsertionGuard guard(builder);
-  if (!globalInsertionOp)
-    builder.setInsertionPointToStart(mlirModule.getBody());
-  else
-    builder.setInsertionPointAfter(globalInsertionOp);
+  // Insert the global after the last one or at the start of the module.
+  OpBuilder::InsertionGuard guard = setGlobalInsertionPoint(globalInsertionOp);
 
   if (globalVar->getName() == getGlobalCtorsVarName()) {
     globalInsertionOp = builder.create<LLVM::GlobalCtorsOp>(

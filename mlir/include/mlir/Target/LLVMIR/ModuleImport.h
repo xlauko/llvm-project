@@ -407,6 +407,10 @@ private:
   /// always requires a symbol name.
   FlatSymbolRefAttr
   getOrCreateNamelessSymbolName(llvm::GlobalVariable *globalVar);
+  /// Returns the global insertion point for the next global operation. If an
+  /// operation is set, the insertion point is placed after the specified
+  /// operation. Otherwise, it defaults to the start of the module.
+  OpBuilder::InsertionGuard setGlobalInsertionPoint(Operation *op);
 
   /// Builder pointing at where the next instruction should be generated.
   OpBuilder builder;
